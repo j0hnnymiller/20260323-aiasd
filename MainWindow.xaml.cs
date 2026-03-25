@@ -11,7 +11,6 @@ ai_log: ai-logs/2026/03/23/retrofit-ai-provenance-20260323/conversation.md
 source: github-copilot-chat
 */
 using System;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,7 +18,11 @@ namespace Calculator
 {
     public partial class MainWindow : Window
     {
-        private double _memory;
+        private readonly CalculatorEngine _engine = new();
+        private readonly CalculatorParser _parser = new();
+        private readonly CalculatorFormatter _formatter = new();
+        private readonly CalculatorMemory _memory = new();
+
         private double _firstOperand;
         private string? _pendingOperator;
         private bool _isNewEntry = true;
@@ -65,7 +68,7 @@ namespace Calculator
         {
             try
             {
-                _firstOperand = ParseDisplay();
+                _firstOperand = _parser.ParseDisplay(DisplayText.Text);
                 _pendingOperator = ((Button)sender).Tag.ToString();
                 _isNewEntry = true;
                 StatusText.Text = $"{_firstOperand} {_pendingOperator}";
@@ -85,9 +88,9 @@ namespace Calculator
 
             try
             {
-                double secondOperand = ParseDisplay();
-                double result = Calculate(_firstOperand, secondOperand, _pendingOperator);
-                DisplayText.Text = FormatNumber(result);
+                double secondOperand = _parser.ParseDisplay(DisplayText.Text);
+                double result = _engine.CalculateBinary(_firstOperand, secondOperand, _pendingOperator);
+                DisplayText.Text = _formatter.FormatDisplay(result);
                 StatusText.Text = $"{_firstOperand} {_pendingOperator} {secondOperand} = {DisplayText.Text}";
                 _pendingOperator = null;
                 _isNewEntry = true;
@@ -123,16 +126,9 @@ namespace Calculator
 
             try
             {
-                double value = ParseDisplay();
-                double result = trig switch
-                {
-                    "sin" => Math.Sin(ToRadians(value)),
-                    "cos" => Math.Cos(ToRadians(value)),
-                    "tan" => TanWithValidation(value),
-                    _ => throw new InvalidOperationException("Unknown trig function.")
-                };
-
-                DisplayText.Text = FormatNumber(result);
+                double value = _parser.ParseDisplay(DisplayText.Text);
+                double result = _engine.ApplyTrig(trig, value);
+                DisplayText.Text = _formatter.FormatDisplay(result);
                 StatusText.Text = $"{trig}({value}) = {DisplayText.Text}";
                 _isNewEntry = true;
             }
@@ -148,27 +144,27 @@ namespace Calculator
 
             try
             {
-                double current = ParseDisplay();
+                double current = _parser.ParseDisplay(DisplayText.Text);
 
                 switch (action)
                 {
                     case "MC":
-                        _memory = 0;
+                        _memory.Clear();
                         StatusText.Text = "Memory cleared";
                         break;
                     case "MR":
-                        DisplayText.Text = FormatNumber(_memory);
+                        DisplayText.Text = _formatter.FormatDisplay(_memory.Recall());
                         _isNewEntry = true;
-                        StatusText.Text = $"Memory recalled: {_memory}";
+                        StatusText.Text = $"Memory recalled: {_memory.Recall()}";
                         break;
                     case "M+":
-                        _memory += current;
-                        StatusText.Text = $"Memory: {_memory}";
+                        _memory.Add(current);
+                        StatusText.Text = $"Memory: {_memory.Recall()}";
                         _isNewEntry = true;
                         break;
                     case "M-":
-                        _memory -= current;
-                        StatusText.Text = $"Memory: {_memory}";
+                        _memory.Subtract(current);
+                        StatusText.Text = $"Memory: {_memory.Recall()}";
                         _isNewEntry = true;
                         break;
                 }
@@ -177,51 +173,6 @@ namespace Calculator
             {
                 ShowError(ex.Message);
             }
-        }
-
-        private double ParseDisplay()
-        {
-            if (!double.TryParse(DisplayText.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out double value))
-            {
-                throw new InvalidOperationException("Invalid number in display.");
-            }
-
-            return value;
-        }
-
-        private static string FormatNumber(double value)
-        {
-            return value.ToString("G15", CultureInfo.InvariantCulture);
-        }
-
-        private static double Calculate(double num1, double num2, string op)
-        {
-            return op switch
-            {
-                "+" => num1 + num2,
-                "-" => num1 - num2,
-                "*" => num1 * num2,
-                "/" => num2 == 0 ? throw new InvalidOperationException("Cannot divide by zero.") : num1 / num2,
-                "%" => (num1 * num2) / 100,
-                _ => throw new InvalidOperationException("Unknown operator.")
-            };
-        }
-
-        private static double ToRadians(double degrees)
-        {
-            return degrees * (Math.PI / 180.0);
-        }
-
-        private static double TanWithValidation(double degrees)
-        {
-            double radians = ToRadians(degrees);
-            double cos = Math.Cos(radians);
-            if (Math.Abs(cos) < 1e-12)
-            {
-                throw new InvalidOperationException("tan is undefined for this angle.");
-            }
-
-            return Math.Tan(radians);
         }
 
         private void ShowError(string message)

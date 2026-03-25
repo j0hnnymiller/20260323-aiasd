@@ -109,6 +109,15 @@ dotnet run --project .\Calculator.csproj
 
 - [README.md](README.md): Repository overview, current-state documentation, and architecture artifact index. Log: [conversation.md](ai-logs/2026/03/24/create-c4-diagrams-20260324/conversation.md)
 - [docs/c4-diagrams.md](docs/c4-diagrams.md): Mermaid C4 system context, container, component, and dynamic diagrams for the calculator application. Log: [conversation.md](ai-logs/2026/03/24/create-c4-diagrams-20260324/conversation.md)
+- [docs/test-automation-plan.md](docs/test-automation-plan.md): Test automation implementation plan covering unit, integration, and end-to-end testing for the WPF calculator application. Log: [conversation.md](ai-logs/2026/03/25/create-test-automation-plan-20260325/conversation.md)
+- [docs/code-coverage-report.md](docs/code-coverage-report.md): Current unit-test coverage summary including Cobertura assembly metrics and focused logic-class coverage results. Log: [conversation.md](ai-logs/2026/03/25/create-code-coverage-report-20260325/conversation.md)
+- [tests/Calculator.UnitTests/Calculator.UnitTests.csproj](tests/Calculator.UnitTests/Calculator.UnitTests.csproj): Predictive unit test project that defines the target contracts for extracted calculator classes before the refactor is implemented. Log: [conversation.md](ai-logs/2026/03/25/create-refactoring-spec-tests-20260325/conversation.md)
+- [tests/Calculator.UnitTests/CalculatorIntegrationTests.cs](tests/Calculator.UnitTests/CalculatorIntegrationTests.cs): 23 integration tests verifying that CalculatorEngine, CalculatorParser, CalculatorFormatter, and CalculatorMemory work correctly together through realistic user workflows. Organized into 6 test categories: binary operations, trigonometry, error handling, memory operations, chained operations, and number formatting. Log: [conversation.md](ai-logs/2026/03/25/implement-integration-tests-20260325/conversation.md)
+- [CalculatorEngine.cs](CalculatorEngine.cs): Extracted class containing binary arithmetic and trigonometric operations. Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
+- [CalculatorParser.cs](CalculatorParser.cs): Extracted class for parsing the display string using invariant culture. Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
+- [CalculatorFormatter.cs](CalculatorFormatter.cs): Extracted class for formatting numeric results for display (G15 invariant culture). Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
+- [CalculatorMemory.cs](CalculatorMemory.cs): Extracted class managing memory state with add, subtract, recall, and clear operations. Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
+- [ICalculatorErrorPresenter.cs](ICalculatorErrorPresenter.cs): Interface that decouples error presentation from `MessageBox.Show`, enabling testable error handling. Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
 - [.github/instructions/ai-assisted-output.instructions.md](.github/instructions/ai-assisted-output.instructions.md): Provenance and AI logging policy for repository artifacts. Log: [conversation.md](ai-logs/2026/01/20/generate-ai-output-policy-20260120/conversation.md)
 - [.github/instructions/evergreen-software-development.instructions.md](.github/instructions/evergreen-software-development.instructions.md): Core principles for evergreen software development. Log: [conversation.md](ai-logs/2026/03/23/create-evergreen-instructions-20260323/conversation.md)
 - [.github/instructions/dotnet.instructions.md](.github/instructions/dotnet.instructions.md): .NET 8 project and build guidance for this WPF app. Log: [conversation.md](ai-logs/2026/03/23/create-technology-instructions-20260323/conversation.md)
@@ -120,6 +129,16 @@ dotnet run --project .\Calculator.csproj
 - [.github/prompts/review-evergreen-code.prompt.md](.github/prompts/review-evergreen-code.prompt.md): Promptfile that reviews the repository against evergreen software principles. Log: [conversation.md](ai-logs/2026/03/24/create-evergreen-review-prompt-20260324/conversation.md)
 - [conversation.md](ai-logs/2026/03/24/create-c4-diagrams-20260324/conversation.md): AI chat transcript for the Mermaid C4 diagram creation task.
 - [summary.md](ai-logs/2026/03/24/create-c4-diagrams-20260324/summary.md): AI session resumability summary for the Mermaid C4 diagram creation task.
+- [conversation.md](ai-logs/2026/03/25/create-test-automation-plan-20260325/conversation.md): AI chat transcript for the test automation plan task.
+- [summary.md](ai-logs/2026/03/25/create-test-automation-plan-20260325/summary.md): AI session resumability summary for the test automation plan task.
+- [conversation.md](ai-logs/2026/03/25/create-code-coverage-report-20260325/conversation.md): AI chat transcript for the code coverage reporting task.
+- [summary.md](ai-logs/2026/03/25/create-code-coverage-report-20260325/summary.md): AI session resumability summary for the code coverage reporting task.
+- [conversation.md](ai-logs/2026/03/25/create-refactoring-spec-tests-20260325/conversation.md): AI chat transcript for the predictive refactoring tests task.
+- [summary.md](ai-logs/2026/03/25/create-refactoring-spec-tests-20260325/summary.md): AI session resumability summary for the predictive refactoring tests task.
+- [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md): AI chat transcript for implementing the five extracted testable classes.
+- [summary.md](ai-logs/2026/03/25/implement-testable-classes-20260325/summary.md): AI session resumability summary for implementing the five extracted testable classes.
+- [conversation.md](ai-logs/2026/03/25/implement-integration-tests-20260325/conversation.md): AI chat transcript for implementing integration tests.
+- [summary.md](ai-logs/2026/03/25/implement-integration-tests-20260325/summary.md): AI session resumability summary for implementing integration tests.
 - [conversation.md](ai-logs/2026/03/24/update-readme-current-state-20260324/conversation.md): AI chat transcript for the README current-state update.
 - [summary.md](ai-logs/2026/03/24/update-readme-current-state-20260324/summary.md): AI session resumability summary for the README current-state update.
 

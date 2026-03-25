@@ -24,4 +24,8 @@ source: github-copilot-chat
         <RootNamespace>Calculator</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Compile Remove="tests\**\*.cs" />
+    </ItemGroup>
+
 </Project>

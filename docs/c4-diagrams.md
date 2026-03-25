@@ -105,8 +105,134 @@ RelIndex(8, controller, formatting, "Formats the result and updates status text"
 RelIndex(9, controller, user, "Displays the result")
 ```
 
+## Class Dependencies — Current State
+
+The five extracted classes now exist in the `Calculator` namespace alongside `MainWindow`. `MainWindow` has not yet been wired to delegate to them — it still owns its original inline implementations. The test project exercises the extracted classes independently via reflection.
+
+```mermaid
+classDiagram
+    class MainWindow {
+        -double _memory
+        -double _firstOperand
+        -string? _pendingOperator
+        -bool _isNewEntry
+        +MainWindow()
+        -ParseDisplay() double
+        -FormatNumber(value) string
+        -Calculate(num1, num2, op) double
+        -TanWithValidation(degrees) double
+        -ShowError(message) void
+    }
+
+    class CalculatorEngine {
+        +CalculateBinary(num1, num2, op) double
+        +ApplyTrig(trig, degrees) double
+    }
+
+    class CalculatorParser {
+        +ParseDisplay(text) double
+    }
+
+    class CalculatorFormatter {
+        +FormatDisplay(value) string
+    }
+
+    class CalculatorMemory {
+        -double _memory
+        +Add(value) void
+        +Subtract(value) void
+        +Recall() double
+        +Clear() void
+    }
+
+    class ICalculatorErrorPresenter {
+        <<interface>>
+        +ShowError(message) void
+    }
+
+    class ProposedRefactoringContractsTests {
+        <<xUnit test assembly>>
+    }
+
+    ProposedRefactoringContractsTests ..> CalculatorEngine : tests via reflection
+    ProposedRefactoringContractsTests ..> CalculatorParser : tests via reflection
+    ProposedRefactoringContractsTests ..> CalculatorFormatter : tests via reflection
+    ProposedRefactoringContractsTests ..> CalculatorMemory : tests via reflection
+    ProposedRefactoringContractsTests ..> ICalculatorErrorPresenter : tests via reflection
+
+    note for MainWindow "Logic still inline.\nExtracted classes are not yet wired.\nNext step: delegate to extracted classes."
+```
+
+## Class Dependencies — Target State
+
+After wiring, `MainWindow` becomes a thin coordinator that delegates all computation and presentation to the extracted classes. The inline duplicate methods are removed.
+
+```mermaid
+classDiagram
+    class MainWindow {
+        -CalculatorEngine _engine
+        -CalculatorParser _parser
+        -CalculatorFormatter _formatter
+        -CalculatorMemory _memory
+        -ICalculatorErrorPresenter _errorPresenter
+        -double _firstOperand
+        -string? _pendingOperator
+        -bool _isNewEntry
+        +MainWindow()
+    }
+
+    class CalculatorEngine {
+        +CalculateBinary(num1, num2, op) double
+        +ApplyTrig(trig, degrees) double
+    }
+
+    class CalculatorParser {
+        +ParseDisplay(text) double
+    }
+
+    class CalculatorFormatter {
+        +FormatDisplay(value) string
+    }
+
+    class CalculatorMemory {
+        -double _memory
+        +Add(value) void
+        +Subtract(value) void
+        +Recall() double
+        +Clear() void
+    }
+
+    class ICalculatorErrorPresenter {
+        <<interface>>
+        +ShowError(message) void
+    }
+
+    class MessageBoxErrorPresenter {
+        +ShowError(message) void
+    }
+
+    class ProposedRefactoringContractsTests {
+        <<xUnit test assembly>>
+    }
+
+    MainWindow --> CalculatorEngine : delegates arithmetic and trig
+    MainWindow --> CalculatorParser : delegates input parsing
+    MainWindow --> CalculatorFormatter : delegates result formatting
+    MainWindow --> CalculatorMemory : delegates memory state
+    MainWindow --> ICalculatorErrorPresenter : delegates error display
+
+    MessageBoxErrorPresenter ..|> ICalculatorErrorPresenter : implements
+
+    ProposedRefactoringContractsTests ..> CalculatorEngine : tests via reflection
+    ProposedRefactoringContractsTests ..> CalculatorParser : tests via reflection
+    ProposedRefactoringContractsTests ..> CalculatorFormatter : tests via reflection
+    ProposedRefactoringContractsTests ..> CalculatorMemory : tests via reflection
+    ProposedRefactoringContractsTests ..> ICalculatorErrorPresenter : tests via reflection
+```
+
 ## Notes
 
 - The application is a single container because the entire calculator ships as one local desktop executable.
 - The component diagram uses logical components inside the executable, even though several responsibilities are implemented within one code-behind file.
 - There is no persistent database, network API, or background service in the current design.
+- The class dependency diagrams reflect the two stages of the planned refactor: the current parallel state (extracted classes exist but are not wired) and the target thin-coordinator pattern.
