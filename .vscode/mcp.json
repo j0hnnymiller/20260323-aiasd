@@ -1,0 +1,14 @@
+{
+  "servers": {
+    "simple-powershell": {
+      "type": "stdio",
+      "command": "pwsh",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-File",
+        "${workspaceFolder}/mcp/simple-mcp-server.ps1"
+      ]
+    }
+  }
+}

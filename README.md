@@ -31,6 +31,7 @@ A .NET 8 WPF calculator application plus repository-specific AI workflow artifac
 - Governance files: `.github/instructions/` contains technology and repository workflow instructions
 - Prompt files: `.github/prompts/` contains reusable review and instruction-comparison prompts
 - Architecture docs: `docs/` contains Mermaid C4 diagrams for the current calculator design
+- MCP example: `mcp/` contains a simple PowerShell stdio MCP server and usage notes
 - Provenance logs: `ai-logs/` contains conversation and summary records for AI-assisted repository changes
 - Supporting materials: `slides/` contains presentation files and a text draft used during prompt authoring
 
@@ -60,6 +61,7 @@ A .NET 8 WPF calculator application plus repository-specific AI workflow artifac
 - `.github/instructions/`: repository, platform, and authoring instructions
 - `.github/prompts/`: reusable prompt files for repository review tasks
 - `docs/`: architecture documentation, including Mermaid C4 diagrams
+- `mcp/`: simple PowerShell Model Context Protocol server example
 - `ai-logs/`: AI provenance conversation logs and summaries
 - `slides/`: supporting slide decks and draft prompt content
 
@@ -122,6 +124,12 @@ dotnet run --project .\Calculator.csproj
 - [feature-flags.json](feature-flags.json): Default local runtime configuration for enabling or disabling memory, percent, and trigonometry features. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
 - [feature-flags.json.meta.md](feature-flags.json.meta.md): Provenance sidecar for the JSON feature flag configuration artifact. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
 - [tests/Calculator.UnitTests/LocalFeatureFlagsLoaderTests.cs](tests/Calculator.UnitTests/LocalFeatureFlagsLoaderTests.cs): Unit tests for missing-file defaults, JSON parsing, and invalid feature flag configuration handling. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
+- [mcp/simple-mcp-server.ps1](mcp/simple-mcp-server.ps1): Minimal PowerShell MCP stdio server exposing `echo` and `add` tools for local experimentation. Log: [conversation.md](ai-logs/2026/03/26/create-simple-powershell-mcp-server-20260326/conversation.md)
+- [mcp/README.md](mcp/README.md): Usage notes, generic MCP client configuration, and a manual smoke test for the PowerShell MCP server. Log: [conversation.md](ai-logs/2026/03/26/create-simple-powershell-mcp-server-20260326/conversation.md)
+- [.vscode/mcp.json](.vscode/mcp.json): VS Code workspace MCP configuration for launching the local PowerShell stdio server. Log: [conversation.md](ai-logs/2026/03/26/create-vscode-mcp-config-20260326/conversation.md)
+- [.vscode/mcp.json.meta.md](.vscode/mcp.json.meta.md): Provenance sidecar for the VS Code workspace MCP configuration artifact. Log: [conversation.md](ai-logs/2026/03/26/create-vscode-mcp-config-20260326/conversation.md)
+- [conversation.md](ai-logs/2026/03/26/fix-powershell-mcp-initialization-20260326/conversation.md): AI chat transcript for fixing the PowerShell MCP initialization hang.
+- [summary.md](ai-logs/2026/03/26/fix-powershell-mcp-initialization-20260326/summary.md): AI session resumability summary for the PowerShell MCP initialization fix.
 - [.github/instructions/ai-assisted-output.instructions.md](.github/instructions/ai-assisted-output.instructions.md): Provenance and AI logging policy for repository artifacts. Log: [conversation.md](ai-logs/2026/01/20/generate-ai-output-policy-20260120/conversation.md)
 - [.github/instructions/evergreen-software-development.instructions.md](.github/instructions/evergreen-software-development.instructions.md): Core principles for evergreen software development. Log: [conversation.md](ai-logs/2026/03/23/create-evergreen-instructions-20260323/conversation.md)
 - [.github/instructions/dotnet.instructions.md](.github/instructions/dotnet.instructions.md): .NET 8 project and build guidance for this WPF app. Log: [conversation.md](ai-logs/2026/03/23/create-technology-instructions-20260323/conversation.md)
@@ -145,6 +153,10 @@ dotnet run --project .\Calculator.csproj
 - [summary.md](ai-logs/2026/03/25/implement-integration-tests-20260325/summary.md): AI session resumability summary for implementing integration tests.
 - [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md): AI chat transcript for implementing local JSON-backed feature flags.
 - [summary.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/summary.md): AI session resumability summary for implementing local JSON-backed feature flags.
+- [conversation.md](ai-logs/2026/03/26/create-simple-powershell-mcp-server-20260326/conversation.md): AI chat transcript for creating the simple PowerShell MCP server.
+- [summary.md](ai-logs/2026/03/26/create-simple-powershell-mcp-server-20260326/summary.md): AI session resumability summary for the simple PowerShell MCP server task.
+- [conversation.md](ai-logs/2026/03/26/create-vscode-mcp-config-20260326/conversation.md): AI chat transcript for creating the VS Code MCP configuration.
+- [summary.md](ai-logs/2026/03/26/create-vscode-mcp-config-20260326/summary.md): AI session resumability summary for the VS Code MCP configuration task.
 - [conversation.md](ai-logs/2026/03/24/update-readme-current-state-20260324/conversation.md): AI chat transcript for the README current-state update.
 - [summary.md](ai-logs/2026/03/24/update-readme-current-state-20260324/summary.md): AI session resumability summary for the README current-state update.
 
