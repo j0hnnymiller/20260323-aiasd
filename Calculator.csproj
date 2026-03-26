@@ -28,4 +28,10 @@ source: github-copilot-chat
         <Compile Remove="tests\**\*.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="feature-flags.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>

@@ -11,6 +11,8 @@ ai_log: ai-logs/2026/03/23/retrofit-ai-provenance-20260323/conversation.md
 source: github-copilot-chat
 */
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -22,14 +24,21 @@ namespace Calculator
         private readonly CalculatorParser _parser = new();
         private readonly CalculatorFormatter _formatter = new();
         private readonly CalculatorMemory _memory = new();
+        private readonly LocalFeatureFlags _featureFlags;
 
         private double _firstOperand;
         private string? _pendingOperator;
         private bool _isNewEntry = true;
 
-        public MainWindow()
+        public MainWindow() : this(new LocalFeatureFlags())
         {
+        }
+
+        public MainWindow(LocalFeatureFlags featureFlags)
+        {
+            _featureFlags = featureFlags ?? throw new ArgumentNullException(nameof(featureFlags));
             InitializeComponent();
+            ApplyFeatureFlags();
         }
 
         private void NumberButton_Click(object sender, RoutedEventArgs e)
@@ -66,10 +75,18 @@ namespace Calculator
 
         private void OperatorButton_Click(object sender, RoutedEventArgs e)
         {
+            string selectedOperator = ((Button)sender).Tag.ToString()!;
+
+            if (selectedOperator == "%" && !_featureFlags.EnablePercent)
+            {
+                ShowFeatureDisabled("Percent operations");
+                return;
+            }
+
             try
             {
                 _firstOperand = _parser.ParseDisplay(DisplayText.Text);
-                _pendingOperator = ((Button)sender).Tag.ToString();
+                _pendingOperator = selectedOperator;
                 _isNewEntry = true;
                 StatusText.Text = $"{_firstOperand} {_pendingOperator}";
             }
@@ -122,6 +139,12 @@ namespace Calculator
 
         private void TrigButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!_featureFlags.EnableTrigonometry)
+            {
+                ShowFeatureDisabled("Trigonometry");
+                return;
+            }
+
             string trig = ((Button)sender).Tag.ToString()!;
 
             try
@@ -140,6 +163,12 @@ namespace Calculator
 
         private void MemoryButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!_featureFlags.EnableMemory)
+            {
+                ShowFeatureDisabled("Memory functions");
+                return;
+            }
+
             string action = ((Button)sender).Tag.ToString()!;
 
             try
@@ -179,6 +208,47 @@ namespace Calculator
         {
             StatusText.Text = $"Error: {message}";
             MessageBox.Show(message, "Calculation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        private void ApplyFeatureFlags()
+        {
+            SetButtonsEnabled(new[] { "MC", "MR", "M+", "M-" }, _featureFlags.EnableMemory);
+            SetButtonsEnabled(new[] { "sin", "cos", "tan" }, _featureFlags.EnableTrigonometry);
+            SetButtonsEnabled(new[] { "%" }, _featureFlags.EnablePercent);
+        }
+
+        private void SetButtonsEnabled(IEnumerable<string> tags, bool isEnabled)
+        {
+            HashSet<string> tagSet = new(tags, StringComparer.Ordinal);
+
+            foreach (Button button in FindButtons(this).Where(candidate => candidate.Tag is string tag && tagSet.Contains(tag)))
+            {
+                button.IsEnabled = isEnabled;
+            }
+        }
+
+        private static IEnumerable<Button> FindButtons(DependencyObject root)
+        {
+            foreach (object child in LogicalTreeHelper.GetChildren(root))
+            {
+                if (child is Button button)
+                {
+                    yield return button;
+                }
+
+                if (child is DependencyObject childDependencyObject)
+                {
+                    foreach (Button descendant in FindButtons(childDependencyObject))
+                    {
+                        yield return descendant;
+                    }
+                }
+            }
+        }
+
+        private void ShowFeatureDisabled(string featureName)
+        {
+            StatusText.Text = $"{featureName} disabled by configuration.";
         }
     }
 }

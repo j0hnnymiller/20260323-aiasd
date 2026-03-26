@@ -118,6 +118,10 @@ dotnet run --project .\Calculator.csproj
 - [CalculatorFormatter.cs](CalculatorFormatter.cs): Extracted class for formatting numeric results for display (G15 invariant culture). Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
 - [CalculatorMemory.cs](CalculatorMemory.cs): Extracted class managing memory state with add, subtract, recall, and clear operations. Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
 - [ICalculatorErrorPresenter.cs](ICalculatorErrorPresenter.cs): Interface that decouples error presentation from `MessageBox.Show`, enabling testable error handling. Log: [conversation.md](ai-logs/2026/03/25/implement-testable-classes-20260325/conversation.md)
+- [LocalFeatureFlags.cs](LocalFeatureFlags.cs): Local JSON-backed feature flag model and loader used to resolve runtime feature toggles once during application startup. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
+- [feature-flags.json](feature-flags.json): Default local runtime configuration for enabling or disabling memory, percent, and trigonometry features. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
+- [feature-flags.json.meta.md](feature-flags.json.meta.md): Provenance sidecar for the JSON feature flag configuration artifact. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
+- [tests/Calculator.UnitTests/LocalFeatureFlagsLoaderTests.cs](tests/Calculator.UnitTests/LocalFeatureFlagsLoaderTests.cs): Unit tests for missing-file defaults, JSON parsing, and invalid feature flag configuration handling. Log: [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md)
 - [.github/instructions/ai-assisted-output.instructions.md](.github/instructions/ai-assisted-output.instructions.md): Provenance and AI logging policy for repository artifacts. Log: [conversation.md](ai-logs/2026/01/20/generate-ai-output-policy-20260120/conversation.md)
 - [.github/instructions/evergreen-software-development.instructions.md](.github/instructions/evergreen-software-development.instructions.md): Core principles for evergreen software development. Log: [conversation.md](ai-logs/2026/03/23/create-evergreen-instructions-20260323/conversation.md)
 - [.github/instructions/dotnet.instructions.md](.github/instructions/dotnet.instructions.md): .NET 8 project and build guidance for this WPF app. Log: [conversation.md](ai-logs/2026/03/23/create-technology-instructions-20260323/conversation.md)
@@ -139,6 +143,8 @@ dotnet run --project .\Calculator.csproj
 - [summary.md](ai-logs/2026/03/25/implement-testable-classes-20260325/summary.md): AI session resumability summary for implementing the five extracted testable classes.
 - [conversation.md](ai-logs/2026/03/25/implement-integration-tests-20260325/conversation.md): AI chat transcript for implementing integration tests.
 - [summary.md](ai-logs/2026/03/25/implement-integration-tests-20260325/summary.md): AI session resumability summary for implementing integration tests.
+- [conversation.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/conversation.md): AI chat transcript for implementing local JSON-backed feature flags.
+- [summary.md](ai-logs/2026/03/25/implement-local-feature-flags-20260325/summary.md): AI session resumability summary for implementing local JSON-backed feature flags.
 - [conversation.md](ai-logs/2026/03/24/update-readme-current-state-20260324/conversation.md): AI chat transcript for the README current-state update.
 - [summary.md](ai-logs/2026/03/24/update-readme-current-state-20260324/summary.md): AI session resumability summary for the README current-state update.
 
