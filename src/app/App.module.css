@@ -1,0 +1,41 @@
+.pageShell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top, rgba(255, 214, 153, 0.65), transparent 32%),
+    linear-gradient(180deg, #fbf5ea 0%, #efe0c8 100%);
+  font-family: "Space Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+}
+
+.panel {
+  width: min(100%, 430px);
+}
+
+.header {
+  margin-bottom: 16px;
+  color: #33251a;
+}
+
+.eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #7d5635;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2rem);
+  line-height: 1.05;
+}
+
+@media (max-width: 420px) {
+  .pageShell {
+    padding: 12px;
+  }
+}
