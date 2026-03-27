@@ -1,7 +1,16 @@
+# Build outputs
 bin/
 obj/
+dist/
 
-# Visual Studio user files
+# Test outputs
+test-results/
+
+# Node
+node_modules/
+tsconfig.tsbuildinfo
+
+# Visual Studio
 .vs/
 *.user
 *.suo
@@ -10,4 +19,4 @@ obj/
 .idea/
 _ReSharper*/
 *.DotSettings.user
-node_modules
+
