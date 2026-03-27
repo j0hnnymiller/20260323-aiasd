@@ -10,9 +10,4 @@ obj/
 .idea/
 _ReSharper*/
 *.DotSettings.user
-
-# Node / frontend
 node_modules
-dist/
-tsconfig.tsbuildinfo
-test-results/
