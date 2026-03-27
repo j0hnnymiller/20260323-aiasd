@@ -1,0 +1,86 @@
+.calculator {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid rgba(67, 43, 26, 0.14);
+  border-radius: 28px;
+  background: rgba(255, 250, 243, 0.78);
+  box-shadow: 0 24px 70px rgba(91, 61, 38, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+.displayShell {
+  display: grid;
+  gap: 8px;
+  min-height: 128px;
+  padding: 18px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #2e2014 0%, #493321 100%);
+  color: #fff7eb;
+}
+
+.status {
+  margin: 0;
+  min-height: 1.3rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  color: #e9cda8;
+}
+
+.display {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: clamp(2.3rem, 8vw, 3.6rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.key {
+  min-height: 64px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fffdfa 0%, #f1dfc3 100%);
+  color: #342010;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 rgba(99, 65, 39, 0.08);
+  cursor: pointer;
+}
+
+.key:hover {
+  background: linear-gradient(180deg, #fff8ef 0%, #edd6b2 100%);
+}
+
+.key:focus-visible {
+  outline: 3px solid #d97706;
+  outline-offset: 3px;
+}
+
+.zeroKey {
+  grid-column: span 1;
+}
+
+@media (max-width: 360px) {
+  .calculator {
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .displayShell {
+    min-height: 116px;
+    padding: 16px;
+  }
+
+  .key {
+    min-height: 58px;
+    font-size: 1.08rem;
+  }
+}
