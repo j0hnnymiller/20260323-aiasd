@@ -6,8 +6,8 @@ export function App() {
     <main className={styles.pageShell}>
       <section className={styles.panel}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Slice 1</p>
-          <h1 className={styles.title}>Calculator State Entry Foundation</h1>
+          <p className={styles.eyebrow}>Slice 2</p>
+          <h1 className={styles.title}>Core Arithmetic Execution</h1>
         </header>
         <CalculatorScreen />
       </section>
