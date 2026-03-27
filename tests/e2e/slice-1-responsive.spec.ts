@@ -5,7 +5,7 @@ test("slice 1 remains usable at 360px width", async ({ page }) => {
   await page.goto("/");
 
   await expect(
-    page.getByRole("heading", { name: "Calculator State Entry Foundation" }),
+    page.getByRole("heading", { name: "Core Arithmetic Execution" }),
   ).toBeVisible();
   await expect(page.getByLabel("Calculator display")).toHaveText("0");
   await page.getByRole("button", { name: "9" }).click();
