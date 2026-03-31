@@ -1,6 +1,9 @@
 bin/
 obj/
 
+# Java / Maven build artifacts
+target/
+
 # Visual Studio user files
 .vs/
 *.user
